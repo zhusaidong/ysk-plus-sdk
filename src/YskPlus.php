@@ -105,7 +105,7 @@ class YskPlus
 		{
 			$api = $apiObject::getInstance();
 			$api->setRequest($this->request);
-			$api->setLogger($this->logger);
+			$this->logger != NULL and $api->setLogger($this->logger);
 			$this->apiObjs[$param] = $api;
 		}
 		

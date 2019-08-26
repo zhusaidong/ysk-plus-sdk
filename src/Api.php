@@ -62,8 +62,11 @@ class Api
 		$response = (new Response())->setOriginal($this->request->post($url, $data, $otherData));
 		
 		//log
-		$this->logger->info('request[' . $url . '].' . $this->request->getTraceId(), $data + $otherData);
-		$this->logger->info('response.' . $response->getZqznTraceId(), $response->info());
+		if($this->logger != NULL)
+		{
+			$this->logger->info('request[' . $url . '].' . $this->request->getTraceId(), $data + $otherData);
+			$this->logger->info('response.' . $response->getZqznTraceId(), $response->info());
+		}
 		
 		return $response;
 	}
