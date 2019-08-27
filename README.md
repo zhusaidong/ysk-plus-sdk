@@ -29,5 +29,12 @@ else
 ### log
 
 ```php
-$ysk = setLog($logPath)
+$ysk = setLog($logPath);
+```
+
+### device_ext_info
+
+```php
+$device_ext_info = new DeviceExtInfo();
+$apiRes = $ysk->device->create('device_sn', 'device_name', $device_ext_info);
 ```
