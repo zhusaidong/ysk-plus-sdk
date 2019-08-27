@@ -7,6 +7,7 @@
 namespace Zhusaidong\YskPlus\Api;
 
 use Zhusaidong\YskPlus\Api;
+use Zhusaidong\YskPlus\DeviceExtInfo;
 use Zhusaidong\YskPlus\Response;
 
 class Device extends Api
@@ -14,18 +15,18 @@ class Device extends Api
 	/**
 	 * 添加设备
 	 *
-	 * @param string $device_sn
-	 * @param string $device_name
-	 * @param array  $device_ext_info
+	 * @param string        $device_sn
+	 * @param string        $device_name
+	 * @param DeviceExtInfo $device_ext_info
 	 *
 	 * @return Response
 	 */
-	public function create(string $device_sn, string $device_name, array $device_ext_info = [])
+	public function create(string $device_sn, string $device_name, DeviceExtInfo $device_ext_info)
 	{
 		return $this->request('/device/create', [
 			'device_sn'       => $device_sn,
 			'device_name'     => $device_name,
-			'device_ext_info' => $device_ext_info,
+			'device_ext_info' => $device_ext_info instanceof DeviceExtInfo ? $device_ext_info->toArray() : [],
 		]);
 	}
 	
@@ -47,13 +48,13 @@ class Device extends Api
 	/**
 	 * 更新设备信息
 	 *
-	 * @param string $device_sn
-	 * @param string $device_name
-	 * @param array  $device_ext_info
+	 * @param string        $device_sn
+	 * @param string        $device_name
+	 * @param DeviceExtInfo $device_ext_info
 	 *
 	 * @return Response
 	 */
-	public function update(string $device_sn, string $device_name = '', array $device_ext_info = [])
+	public function update(string $device_sn, string $device_name = '', DeviceExtInfo $device_ext_info = NULL)
 	{
 		$data = [
 			'device_sn' => $device_sn,
@@ -65,7 +66,7 @@ class Device extends Api
 		}
 		if(!empty($device_ext_info))
 		{
-			$data['device_ext_info'] = $device_ext_info;
+			$data['device_ext_info'] = $device_ext_info instanceof DeviceExtInfo ? $device_ext_info->toArray() : [];
 		}
 		
 		return $this->request('/device/update', $data);
@@ -104,7 +105,7 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function lists(int $page_num, int $page_size, string $device_name = '')
+	public function lists(int $page_num = 1, int $page_size = 50, string $device_name = '')
 	{
 		$data = [
 			'page_num'  => $page_num,

@@ -38,15 +38,11 @@ class YskPlus
 	 * @var array $apis
 	 */
 	private $apis = [
-		FaceLib::class,
-		Face::class,
-		Device::class,
-		Access::class,
+		'faceLib' => FaceLib::class,
+		'face'    => Face::class,
+		'device'  => Device::class,
+		'access'  => Access::class,
 	];
-	/**
-	 * @var array $apiObjs api objects
-	 */
-	private $apiObjs = [];
 	/**
 	 * @var Request|null $request
 	 */
@@ -66,19 +62,18 @@ class YskPlus
 	{
 		$this->appKey    = $appKey;
 		$this->secretKey = $secretKey;
-		$this->apiObjs   = [];
 		$this->request   = new Request($appKey, $secretKey);
 	}
 	
 	/**
 	 * set log
 	 *
-	 * @param $logPath
+	 * @param string $logPath
 	 *
 	 * @return $this
 	 * @throws Exception
 	 */
-	public function setLog($logPath)
+	public function setLog(string $logPath = 'YskPlus.log')
 	{
 		$this->logger = new Logger('YskPlusLog');
 		$this->logger->pushHandler(new StreamHandler($logPath, Logger::INFO));
@@ -95,21 +90,12 @@ class YskPlus
 	 */
 	public function __get($param)
 	{
-		$apiObject = 'Zhusaidong\\YskPlus\\Api\\' . ucfirst($param);
-		if(!in_array($apiObject, $this->apis))
+		if(($apiObject = ($this->apis[$param] ?? NULL)) !== NULL)
 		{
-			return NULL;
+			return $apiObject::getInstance()->setRequest($this->request)->setLogger($this->logger);
 		}
 		
-		if(!isset($this->apiObjs[$param]))
-		{
-			$api = $apiObject::getInstance();
-			$api->setRequest($this->request);
-			$this->logger != NULL and $api->setLogger($this->logger);
-			$this->apiObjs[$param] = $api;
-		}
-		
-		return $this->apiObjs[$param];
+		return NULL;
 	}
 	
 	/**

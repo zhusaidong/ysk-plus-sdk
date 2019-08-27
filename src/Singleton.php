@@ -8,6 +8,11 @@ namespace Zhusaidong\YskPlus;
 
 trait Singleton
 {
+	/**
+	 * 单例模式获取实例
+	 *
+	 * @return mixed
+	 */
 	public static function getInstance()
 	{
 		static $instances = [];
@@ -21,10 +26,16 @@ trait Singleton
 		return $instances[$className];
 	}
 	
+	/**
+	 * private constructor.
+	 */
 	private function __construct()
 	{
 	}
 	
+	/**
+	 * private clone
+	 */
 	private function __clone()
 	{
 	}

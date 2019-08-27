@@ -28,10 +28,7 @@ class FaceLib extends Api
 			'face_lib_name' => $face_lib_name,
 			'face_lib_size' => $face_lib_size,
 		];
-		if(!empty($notify_url))
-		{
-			$data['face_lib_config'] = ['notify_url' => $notify_url];
-		}
+		!empty($notify_url) and $data['face_lib_config'] = ['notify_url' => $notify_url];
 		
 		return $this->request('/face_lib/create', $data);
 	}
@@ -63,18 +60,10 @@ class FaceLib extends Api
 		$data = [
 			'face_lib_code' => $face_lib_code,
 		];
-		if(!empty($face_lib_name))
-		{
-			$data['face_lib_name'] = $face_lib_name;
-		}
-		if(!empty($face_lib_size))
-		{
-			$data['face_lib_size'] = $face_lib_size;
-		}
-		if(!empty($notify_url))
-		{
-			$data['face_lib_config'] = ['notify_url' => $notify_url];
-		}
+		
+		!empty($face_lib_name) and $data['face_lib_name'] = $face_lib_name;
+		!empty($face_lib_size) and $data['face_lib_size'] = $face_lib_size;
+		!empty($notify_url) and $data['face_lib_config'] = ['notify_url' => $notify_url];
 		
 		return $this->request('/face_lib/update', $data);
 	}

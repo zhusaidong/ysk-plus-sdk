@@ -7,6 +7,7 @@
 namespace Zhusaidong\YskPlus;
 
 use Symfony\Component\HttpFoundation\Request;
+use Closure;
 
 class NotifyUrl
 {
@@ -19,7 +20,7 @@ class NotifyUrl
 	{
 		$request = new Request();
 		
-		return json_decode($request->getContent());
+		return $request->input();
 	}
 	
 	/**
@@ -27,7 +28,7 @@ class NotifyUrl
 	 *
 	 * @return array
 	 */
-	public function notify_url()
+	public function notify_url(Closure $closure = NULL)
 	{
 		return $this->input();
 	}

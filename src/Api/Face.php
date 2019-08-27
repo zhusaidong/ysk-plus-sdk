@@ -18,18 +18,31 @@ class Face extends Api
 	 * @param string $face_lib_code 人脸库编码
 	 * @param string $person_name   人员名称
 	 * @param array  $ext_info
-	 * @param null   $face_img1
+	 * @param array  $face_imgs
 	 *
 	 * @return Response
 	 */
-	public function create(string $person_code, string $face_lib_code, string $person_name, array $ext_info = [], $face_img1 = NULL)
+	public function create(string $person_code, string $face_lib_code, string $person_name, array $ext_info = [], array $face_imgs = [])
 	{
+		switch(count($face_imgs))
+		{
+			case 0:
+				$otherData = [];
+				break;
+			case 1:
+				$otherData = ['face_img1' => $face_imgs[0]];
+				break;
+			case 2:
+				$otherData = ['face_img1' => $face_imgs[0], 'face_img2' => $face_imgs[1]];
+				break;
+		}
+		
 		return $this->request('/face/create', [
 			'person_code'   => $person_code,
 			'face_lib_code' => $face_lib_code,
 			'person_name'   => $person_name,
 			'ext_info'      => $ext_info,
-		], ['face_img1' => $face_img1]);
+		], $otherData);
 	}
 	
 	/**
@@ -38,15 +51,17 @@ class Face extends Api
 	 * @param string $person_code   人员编码
 	 * @param string $face_lib_code 人脸库编码
 	 * @param bool   $del_face_img1
+	 * @param bool   $del_face_img2
 	 *
 	 * @return Response
 	 */
-	public function delete(string $person_code, string $face_lib_code, bool $del_face_img1 = FALSE)
+	public function delete(string $person_code, string $face_lib_code, bool $del_face_img1 = FALSE, bool $del_face_img2 = FALSE)
 	{
 		return $this->request('/face/delete', [
 			'person_code'   => $person_code,
 			'face_lib_code' => $face_lib_code,
 			'del_face_img1' => $del_face_img1,
+			'del_face_img2' => $del_face_img2,
 		]);
 	}
 	
@@ -57,32 +72,31 @@ class Face extends Api
 	 * @param string $face_lib_code 人脸库编码
 	 * @param string $person_name   人员名称
 	 * @param array  $ext_info
-	 * @param null   $face_img1
+	 * @param array  $face_imgs
 	 *
 	 * @return Response
 	 */
-	public function update(string $person_code, string $face_lib_code, string $person_name = '', array $ext_info = [], $face_img1 = NULL)
+	public function update(string $person_code, string $face_lib_code, string $person_name = '', array $ext_info = [], array $face_imgs = [])
 	{
 		$data = [
 			'person_code'   => $person_code,
 			'face_lib_code' => $face_lib_code,
 		];
-		if(!empty($person_name))
-		{
-			$data['person_name'] = $person_name;
-		}
-		if(!empty($ext_info))
-		{
-			$data['ext_info'] = $ext_info;
-		}
 		
-		if(!empty($face_img1))
+		!empty($person_name) and $data['person_name'] = $person_name;
+		!empty($ext_info) and $data['ext_info'] = $ext_info;
+		
+		switch(count($face_imgs))
 		{
-			$otherData = ['face_img1' => $face_img1];
-		}
-		else
-		{
-			$otherData = [];
+			case 0:
+				$otherData = [];
+				break;
+			case 1:
+				$otherData = ['face_img1' => $face_imgs[0]];
+				break;
+			case 2:
+				$otherData = ['face_img1' => $face_imgs[0], 'face_img2' => $face_imgs[1]];
+				break;
 		}
 		
 		return $this->request('/face/update', $data, $otherData);

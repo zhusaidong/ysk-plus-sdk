@@ -57,7 +57,7 @@ class Access extends Api
 	 *
 	 * @return Response
 	 */
-	public function lists(string $device_sn, int $page_num, int $page_size, int $sync_status = 0)
+	public function lists(string $device_sn, int $page_num = 1, int $page_size = 50, int $sync_status = 0)
 	{
 		$data = [
 			'device_sn' => $device_sn,
@@ -82,7 +82,7 @@ class Access extends Api
 	 *
 	 * @return Response
 	 */
-	public function personPermissions(string $person_code, string $face_lib_code, int $page_num, int $page_size)
+	public function personPermissions(string $person_code, string $face_lib_code, int $page_num = 1, int $page_size = 50)
 	{
 		return $this->request('/access_rights/query_grant_devices', [
 			'person_code'   => $person_code,

@@ -41,7 +41,7 @@ class Api
 	 *
 	 * @return $this
 	 */
-	public function setLogger(Logger $logger)
+	public function setLogger(Logger $logger = NULL)
 	{
 		$this->logger = $logger;
 		
@@ -59,7 +59,8 @@ class Api
 	 */
 	public function request(string $url, array $data = [], array $otherData = [])
 	{
-		$response = (new Response())->setOriginal($this->request->post($url, $data, $otherData));
+		$response = new Response();
+		$response->setOriginal($this->request->post($url, $data, $otherData));
 		
 		//log
 		if($this->logger != NULL)

@@ -91,7 +91,6 @@ class Request
 	 * @param array  $otherData
 	 *
 	 * @return bool|string
-	 * @throws \GuzzleHttp\Exception\GuzzleException
 	 */
 	public function post(string $url, array $reqData = [], array $otherData = [])
 	{
