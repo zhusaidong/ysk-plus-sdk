@@ -55,7 +55,7 @@ class Face extends Api
 	 *
 	 * @return Response
 	 */
-	public function delete(string $person_code, string $face_lib_code, bool $del_face_img1 = FALSE, bool $del_face_img2 = FALSE)
+	public function delete(string $person_code, string $face_lib_code, bool $del_face_img1 = TRUE, bool $del_face_img2 = FALSE)
 	{
 		return $this->request('/face/delete', [
 			'person_code'   => $person_code,

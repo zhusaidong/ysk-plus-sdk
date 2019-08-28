@@ -36,7 +36,7 @@ class Response
 	{
 		$response = json_decode($data, TRUE);
 		
-		$this->zqzn_trace_id = $response['zqzn_trace_id'];
+		$this->zqzn_trace_id = $response['zqzn_trace_id'] ?? '';
 		if(isset($response['success']) and $response['success'] === FALSE)
 		{
 			$this->error_code = $response['error_code'];
@@ -45,7 +45,7 @@ class Response
 		}
 		else
 		{
-			$this->response = $response['data'];
+			$this->response = $response['data'] ?? [];
 		}
 		
 		return $this;
