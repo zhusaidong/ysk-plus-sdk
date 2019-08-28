@@ -1,11 +1,11 @@
 ysk-plus-sdk
 ===
 
-ysk-plus sdk
+the ysk-plus sdk
 
 ### usage
 
-> composer require zhusaidong/ysk-plus-sdk
+> composer require zhusaidong/ysk-plus-sdk -vvv
 
 ### config
 
@@ -20,10 +20,10 @@ return [
 ### Available methods
 
 ```php
-$ysk->faceLib;//人脸库
-$ysk->face;//人脸
-$ysk->device;//设备
-$ysk->access;//下发
+$ysk->faceLib;	//face lib
+$ysk->face;	//face
+$ysk->device;	//device
+$ysk->access;	//device access
 ```
 
 ### demo
@@ -61,9 +61,9 @@ $ysk->device->create('device_sn', 'device_name', $device_ext_info);
 ### add face image
 
 ```php
-//if image is a file
+//if the image is a file
 $face_images = [new CURLFile($face_image)];
-//if image is a url
+//if the image is a url
 $face_images = [file_get_contents($face_image)];
 
 $ysk->face->create('person_code', 'face_lib_code', 'person_name', [], $face_images);
