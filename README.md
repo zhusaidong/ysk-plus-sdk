@@ -7,6 +7,25 @@ ysk-plus sdk
 
 > composer require zhusaidong/ysk-plus-sdk
 
+### config
+
+```php
+return [
+	'appKey'    => 'appKey',
+	'secretKey' => 'secretKey',
+	'device_sn' => 'device_sn',
+]
+```
+
+### Available methods
+
+```php
+$ysk->faceLib;//人脸库
+$ysk->face;//人脸
+$ysk->device;//设备
+$ysk->access;//下发
+```
+
 ### demo
 
 ```php
@@ -15,7 +34,7 @@ require 'vendor/autoload.php';
 use Zhusaidong\YskPlus\YskPlus;
 
 $ysk = new YskPlus('appKey', 'secretKey');
-$apiRes = $ysk->faceLib->create("customer_code", "my lib");
+$apiRes = $ysk->faceLib->create('customer_code', 'my lib');
 if($apiRes->getError() === FALSE)
 {
 	var_dump('ok', $apiRes->get());
