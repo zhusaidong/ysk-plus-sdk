@@ -9,7 +9,7 @@ namespace Zhusaidong\YskPlus;
 trait Singleton
 {
 	/**
-	 * 单例模式获取实例
+	 * get instance
 	 *
 	 * @return mixed
 	 */
