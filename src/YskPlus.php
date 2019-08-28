@@ -107,11 +107,11 @@ class YskPlus
 	 */
 	public function fileUrl($file_path)
 	{
-		$signature = md5(http_build_query([
+		$signature = strtoupper(md5(urldecode(http_build_query([
 			'file_path'  => $file_path,
 			'app_key'    => $this->appKey,
 			'secret_key' => $this->secretKey,
-		]));
+		]))));
 		
 		return 'https://img.yskplus.com/download/app/' . $this->appKey . '/' . $file_path . '?signature=' . $signature;
 	}
