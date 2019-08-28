@@ -1,21 +1,19 @@
 <?php
 /**
- * demo
+ * access
  *
  * @author zhusaidong <zhusaidong@gmail.com>
  */
 
 require '../vendor/autoload.php';
+$config = require 'config.php';
 
 use Zhusaidong\YskPlus\YskPlus;
 
-$ysk = new YskPlus('appKey', 'secretKey');
-$ysk->setLog('api.log');
+$ysk = new YskPlus($config['appKey'], $config['secretKey']);
+//$ysk->setLog('api.log');
 
-$apiRes = $ysk->faceLib->create("customer_code", "my lib");
-$apiRes = $ysk->faceLib->lists();
-$apiRes = $ysk->faceLib->delete('customer_code');
-
+$apiRes = $ysk->access->addPersons($config['device_sn'], 'customer_code', ['test_person_code']);
 if($apiRes->getError() === FALSE)
 {
 	var_dump('ok', $apiRes->get());
