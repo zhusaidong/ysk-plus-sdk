@@ -19,10 +19,10 @@ use Exception;
  *
  * @package Zhusaidong\YskPlus
  *
- * @property FaceLib $faceLib 人脸库
- * @property Face    $face    人脸
- * @property Device  $device  设备
- * @property Access  $access  授权访问
+ * @property FaceLib $faceLib face lib
+ * @property Face    $face    face
+ * @property Device  $device  device
+ * @property Access  $access  device access
  */
 class YskPlus
 {
