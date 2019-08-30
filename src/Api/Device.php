@@ -7,7 +7,8 @@
 namespace Zhusaidong\YskPlus\Api;
 
 use Zhusaidong\YskPlus\Api;
-use Zhusaidong\YskPlus\DeviceExtInfo;
+use Zhusaidong\YskPlus\Device\DeviceExtInfo;
+use Zhusaidong\YskPlus\Device\DeviceInfo;
 use Zhusaidong\YskPlus\Response;
 
 class Device extends Api
@@ -21,28 +22,31 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function create(string $device_sn, string $device_name, DeviceExtInfo $device_ext_info)
+	public function create(string $device_sn, string $device_name, DeviceExtInfo $device_ext_info = NULL)
 	{
 		return $this->request('/device/create', [
 			'device_sn'       => $device_sn,
 			'device_name'     => $device_name,
-			'device_ext_info' => $device_ext_info instanceof DeviceExtInfo ? $device_ext_info->toArray() : [],
+			'device_ext_info' => $device_ext_info == NULL ? [] : $device_ext_info->get(),
 		]);
 	}
 	
 	/**
 	 * 更新设备配置
 	 *
-	 * @param string $device_sn
-	 * @param array  $deviceData
+	 * @param string     $device_sn
+	 * @param DeviceInfo $deviceData
 	 *
 	 * @return Response
 	 */
-	public function updateConfig(string $device_sn, array $deviceData = [])
+	public function updateConfig(string $device_sn, DeviceInfo $deviceInfo = NULL)
 	{
-		return $this->request('/device/update_config', [
-				'device_sn' => $device_sn,
-			] + $deviceData);
+		$data = [
+			'device_sn' => $device_sn,
+		];
+		$deviceInfo != NULL and $data += $deviceInfo->get();
+		
+		return $this->request('/device/update_config', $data);
 	}
 	
 	/**
@@ -60,14 +64,8 @@ class Device extends Api
 			'device_sn' => $device_sn,
 		];
 		
-		if(!empty($device_name))
-		{
-			$data['device_name'] = $device_name;
-		}
-		if(!empty($device_ext_info))
-		{
-			$data['device_ext_info'] = $device_ext_info instanceof DeviceExtInfo ? $device_ext_info->toArray() : [];
-		}
+		!empty($device_name) and $data['device_name'] = $device_name;
+		$device_ext_info != NULL and $data['device_ext_info'] = $device_ext_info->get();
 		
 		return $this->request('/device/update', $data);
 	}
@@ -144,6 +142,25 @@ class Device extends Api
 		return $this->request('/device/reset_key', [
 			'device_sn'  => $device_sn,
 			'device_key' => $device_key,
+		]);
+	}
+	
+	/**
+	 * 发送命令
+	 *
+	 * @param string $device_sn
+	 * @param string $command
+	 * @param array  $command_data
+	 *
+	 * @return Response
+	 * @deprecated 暂未开放
+	 */
+	public function sendCommand(string $device_sn, string $command, array $command_data = [])
+	{
+		return $this->request('/device/send_command', [
+			'device_sn'    => $device_sn,
+			'command'      => $command,
+			'command_data' => $command_data,
 		]);
 	}
 }

@@ -8,7 +8,7 @@
 require '../vendor/autoload.php';
 $config = require 'config.php';
 
-use Zhusaidong\YskPlus\DeviceExtInfo;
+use Zhusaidong\YskPlus\Device\DeviceExtInfo;
 use Zhusaidong\YskPlus\YskPlus;
 
 $ysk = new YskPlus($config['appKey'], $config['secretKey']);

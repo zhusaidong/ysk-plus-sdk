@@ -4,9 +4,9 @@
  * @author zhusaidong <zhusaidong@gmail.com>
  */
 
-namespace Zhusaidong\YskPlus;
+namespace Zhusaidong\YskPlus\Device;
 
-class DeviceExtInfo
+class DeviceExtInfo extends Info
 {
 	/**
 	 * @var string $realtime_notify_url 实时推送URL地址
@@ -40,14 +40,4 @@ class DeviceExtInfo
 	 * @var string $play_recognize_failed_voice_content 自定义识别失败提示语音,不超过10个中文
 	 */
 	public $play_recognize_failed_voice_content = '';
-	
-	/**
-	 * to array
-	 *
-	 * @return array
-	 */
-	public function toArray()
-	{
-		return get_object_vars($this);
-	}
 }
