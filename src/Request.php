@@ -6,6 +6,8 @@
 
 namespace Zhusaidong\YskPlus;
 
+use GuzzleHttp\Client;
+
 class Request
 {
 	/**
@@ -24,6 +26,10 @@ class Request
 	 * @var string $trace_id trace_id
 	 */
 	private $trace_id = '';
+	/**
+	 * @var Client $client
+	 */
+	private $client = NULL;
 	
 	/**
 	 * Request constructor.
@@ -35,52 +41,59 @@ class Request
 	{
 		$this->appKey    = $appKey;
 		$this->secretKey = $secretKey;
+		$this->client    = new Client(['base_uri' => $this->host . $this->appKey . '/']);
 	}
 	
 	/**
-	 * 请求签名
-	 *
-	 * @param int    $request_time
-	 * @param string $signature_nonce
-	 *
-	 * @return string
-	 */
-	private function sign(int $request_time, string $signature_nonce)
-	{
-		$signData = [
-			'trace_id'        => $this->getTraceId(),
-			'request_time'    => $request_time,
-			'signature_nonce' => $signature_nonce,
-			'app_key'         => $this->appKey,
-			'secret_key'      => $this->secretKey,
-		];
-		
-		return md5(http_build_query($signData));
-	}
-	
-	/**
-	 * 生成post请求数据
-	 *
-	 * @param array $reqData
-	 * @param array $otherData
+	 * get base sign data
 	 *
 	 * @return array
 	 */
-	private function getPostFields(array $reqData, array $otherData = [])
+	private function getSignData()
 	{
 		$this->setTraceId(uniqid() . '_' . date('YmdHis'));
 		$request_time    = intval(microtime(TRUE) * 1000);//毫秒
 		$signature_nonce = md5($this->getTraceId());
 		
 		return [
-				'app_key'  => $this->appKey,
-				'req_data' => json_encode([
-						'trace_id'        => $this->getTraceId(),
-						'request_time'    => $request_time,
-						'signature_nonce' => $signature_nonce,
-						'signature'       => $this->sign($request_time, $signature_nonce),
-					] + $reqData, JSON_UNESCAPED_UNICODE),
-			] + $otherData;
+			'trace_id'        => $this->getTraceId(),
+			'request_time'    => $request_time,
+			'signature_nonce' => $signature_nonce,
+			'signature'       => md5(http_build_query([
+				'trace_id'        => $this->getTraceId(),
+				'request_time'    => $request_time,
+				'signature_nonce' => $signature_nonce,
+				'app_key'         => $this->appKey,
+				'secret_key'      => $this->secretKey,
+			])),
+		];
+	}
+	
+	/**
+	 * 生成post请求数据
+	 *
+	 * @param array $reqData
+	 * @param array $faceImageData
+	 *
+	 * @return array
+	 */
+	private function getPostFields(array $reqData, array $faceImageData = [])
+	{
+		$multipart = [
+			[
+				'name'     => 'req_data',
+				'contents' => json_encode($this->getSignData() + $reqData, JSON_UNESCAPED_UNICODE),
+			],
+		];
+		foreach($faceImageData as $key => $faceImage)
+		{
+			$multipart[] = [
+				'name'     => $key,
+				'contents' => @file_get_contents($faceImage),
+			];
+		}
+		
+		return $multipart;
 	}
 	
 	/**
@@ -88,23 +101,15 @@ class Request
 	 *
 	 * @param string $url
 	 * @param array  $reqData
-	 * @param array  $otherData
+	 * @param array  $faceImageData
 	 *
 	 * @return bool|string
 	 */
-	public function post(string $url, array $reqData = [], array $otherData = [])
+	public function post(string $url, array $reqData = [], array $faceImageData = [])
 	{
-		$fullUrl = $this->host . $this->appKey . $url;
-		
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, $fullUrl);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $this->getPostFields($reqData, $otherData));
-		$response = curl_exec($curl);
-		curl_close($curl);
-		
-		return $response;
+		return $this->client->post(trim($url, '/'), ['multipart' => $this->getPostFields($reqData, $faceImageData)])
+			->getBody()
+			->getContents();
 	}
 	
 	/**

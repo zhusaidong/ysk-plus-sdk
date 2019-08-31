@@ -57,15 +57,15 @@ class Api
 	 *
 	 * @return Response
 	 */
-	public function request(string $url, array $data = [], array $otherData = [])
+	public function request(string $url, array $data = [], array $faceImageData = [])
 	{
 		$response = new Response();
-		$response->setOriginal($this->request->post($url, $data, $otherData));
+		$response->setOriginal($this->request->post($url, $data, $faceImageData));
 		
 		//log
 		if($this->logger != NULL)
 		{
-			$this->logger->info('request[' . $url . '].' . $this->request->getTraceId(), $data + $otherData);
+			$this->logger->info('request[' . $url . '].' . $this->request->getTraceId(), $data + $faceImageData);
 			$this->logger->info('response.' . $response->getZqznTraceId(), $response->info());
 		}
 		
