@@ -12,6 +12,11 @@ use Zhusaidong\YskPlus\Response;
 class Face extends Api
 {
 	/**
+	 * max face image number
+	 */
+	private const MAX_IMAGE_NUMBER = 2;
+	
+	/**
 	 * get face image data
 	 *
 	 * @param array $faceImages
@@ -20,18 +25,11 @@ class Face extends Api
 	 */
 	private function getFaceImageData(array $faceImages = [])
 	{
-		$faceImages = array_values($faceImages);
-		switch(count($faceImages))
+		$faceImageData = [];
+		$faceImages    = array_slice(array_values($faceImages), 0, self::MAX_IMAGE_NUMBER);
+		foreach($faceImages as $index => $faceImage)
 		{
-			case 0:
-				$faceImageData = [];
-				break;
-			case 1:
-				$faceImageData = ['face_img1' => $faceImages[0]];
-				break;
-			default:// >= 2
-				$faceImageData = ['face_img1' => $faceImages[0], 'face_img2' => $faceImages[1]];
-				break;
+			$faceImageData['face_img' . ($index + 1)] = $faceImage;
 		}
 		
 		return $faceImageData;
