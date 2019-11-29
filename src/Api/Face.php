@@ -52,6 +52,7 @@ class Face extends Api
 			'person_code'   => $person_code,
 			'face_lib_code' => $face_lib_code,
 			'person_name'   => $person_name,
+			'nick_name'     => $person_name,
 			'ext_info'      => $ext_info,
 		], $this->getFaceImageData($face_imgs));
 	}
@@ -66,7 +67,7 @@ class Face extends Api
 	 *
 	 * @return Response
 	 */
-	public function delete(string $person_code, string $face_lib_code, bool $del_face_img1 = TRUE, bool $del_face_img2 = FALSE)
+	public function delete(string $person_code, string $face_lib_code, bool $del_face_img1 = true, bool $del_face_img2 = false)
 	{
 		return $this->request('/face/delete', [
 			'person_code'   => $person_code,
@@ -94,8 +95,15 @@ class Face extends Api
 			'face_lib_code' => $face_lib_code,
 		];
 		
-		!empty($person_name) and $data['person_name'] = $person_name;
-		!empty($ext_info) and $data['ext_info'] = $ext_info;
+		if(!empty($person_name))
+		{
+			$data['person_name'] = $person_name;
+			$data['nick_name']   = $person_name;
+		}
+		if(!empty($ext_info))
+		{
+			$data['ext_info'] = $ext_info;
+		}
 		
 		return $this->request('/face/update', $data, $this->getFaceImageData($face_imgs));
 	}

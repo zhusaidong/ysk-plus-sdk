@@ -1,24 +1,25 @@
 {
-    "name": "zhusaidong/ysk-plus-sdk",
-    "description": "ysk-plus sdk",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "zhusaidong",
-            "email": "zhusaidong@gmail.com"
-        }
-    ],
-    "require":{
-		"ext-json"         :"*",
-        "ext-curl"         :"*",
-        "monolog/monolog"  : "^1.24",
-        "symfony/http-foundation": "^4.2",
-        "guzzlehttp/guzzle": "~6.0"
+	"name"       :"zhusaidong/ysk-plus-sdk",
+	"description":"ysk-plus sdk",
+	"type"       :"library",
+	"license"    :"MIT",
+	"authors"    :[
+		{
+			"name" :"zhusaidong",
+			"email":"zhusaidong@gmail.com"
+		}
+	],
+	"require"    :{
+		"php"                    :">=7.0",
+		"ext-json"               :"*",
+		"ext-curl"               :"*",
+		"monolog/monolog"        :"^1.24",
+		"symfony/http-foundation":"^4.2",
+		"guzzlehttp/guzzle"      :"~6.0"
 	},
-    "autoload": {
-        "psr-4": {
-            "Zhusaidong\\YskPlus\\": "src/"
-        }
-    }
+	"autoload"   :{
+		"psr-4":{
+			"Zhusaidong\\YskPlus\\":"src/"
+		}
+	}
 }
