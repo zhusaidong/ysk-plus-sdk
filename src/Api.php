@@ -14,11 +14,11 @@ class Api
 	/**
 	 * @var Request|null $request
 	 */
-	private $request = NULL;
+	private $request = null;
 	/**
 	 * @var null|Logger $logger
 	 */
-	private $logger = NULL;
+	private $logger = null;
 	
 	/**
 	 * set request
@@ -27,7 +27,7 @@ class Api
 	 *
 	 * @return $this
 	 */
-	public function setRequest(Request $request)
+	public function setRequest(Request $request) : self
 	{
 		$this->request = $request;
 		
@@ -41,7 +41,7 @@ class Api
 	 *
 	 * @return $this
 	 */
-	public function setLogger(Logger $logger = NULL)
+	public function setLogger(Logger $logger = null) : self
 	{
 		$this->logger = $logger;
 		
@@ -53,19 +53,19 @@ class Api
 	 *
 	 * @param string $url
 	 * @param array  $data
-	 * @param array  $otherData
+	 * @param array  $faceImageData
 	 *
 	 * @return Response
 	 */
-	public function request(string $url, array $data = [], array $faceImageData = [])
+	public function request(string $url, array $data = [], array $faceImageData = []) : Response
 	{
 		$response = new Response();
 		$response->setOriginal($this->request->post($url, $data, $faceImageData));
 		
 		//log
-		if($this->logger != NULL)
+		if($this->logger !== null)
 		{
-			$this->logger->info('request[' . $url . '].' . $this->request->getTraceId(), $data + $faceImageData);
+			$this->logger->info('request[' . $url . '].' . $this->request->getTraceId(), array_merge($data, $faceImageData));
 			$this->logger->info('response.' . $response->getZqznTraceId(), $response->info());
 		}
 		

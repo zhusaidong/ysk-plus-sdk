@@ -21,14 +21,17 @@ class FaceLib extends Api
 	 *
 	 * @return Response
 	 */
-	public function create(string $face_lib_code, string $face_lib_name, int $face_lib_size = 10000, string $notify_url = '')
+	public function create(string $face_lib_code, string $face_lib_name, int $face_lib_size = 10000, string $notify_url = '') : Response
 	{
 		$data = [
 			'face_lib_code' => $face_lib_code,
 			'face_lib_name' => $face_lib_name,
 			'face_lib_size' => $face_lib_size,
 		];
-		!empty($notify_url) and $data['face_lib_config'] = ['notify_url' => $notify_url];
+		if(!empty($notify_url))
+		{
+			$data['face_lib_config'] = ['notify_url' => $notify_url];
+		}
 		
 		return $this->request('/face_lib/create', $data);
 	}
@@ -40,7 +43,7 @@ class FaceLib extends Api
 	 *
 	 * @return Response
 	 */
-	public function delete(string $face_lib_code)
+	public function delete(string $face_lib_code) : Response
 	{
 		return $this->request('/face_lib/delete', ['face_lib_code' => $face_lib_code]);
 	}
@@ -55,15 +58,24 @@ class FaceLib extends Api
 	 *
 	 * @return Response
 	 */
-	public function update(string $face_lib_code, string $face_lib_name = '', int $face_lib_size = 0, string $notify_url = '')
+	public function update(string $face_lib_code, string $face_lib_name = '', int $face_lib_size = 0, string $notify_url = '') : Response
 	{
 		$data = [
 			'face_lib_code' => $face_lib_code,
 		];
 		
-		!empty($face_lib_name) and $data['face_lib_name'] = $face_lib_name;
-		!empty($face_lib_size) and $data['face_lib_size'] = $face_lib_size;
-		!empty($notify_url) and $data['face_lib_config'] = ['notify_url' => $notify_url];
+		if(!empty($face_lib_name))
+		{
+			$data['face_lib_name'] = $face_lib_name;
+		}
+		if(!empty($face_lib_size))
+		{
+			$data['face_lib_size'] = $face_lib_size;
+		}
+		if(!empty($notify_url))
+		{
+			$data['face_lib_config'] = ['notify_url' => $notify_url];
+		}
 		
 		return $this->request('/face_lib/update', $data);
 	}
@@ -73,7 +85,7 @@ class FaceLib extends Api
 	 *
 	 * @return Response
 	 */
-	public function lists()
+	public function lists() : Response
 	{
 		return $this->request('/face_lib/query');
 	}

@@ -43,7 +43,7 @@ class DeviceInfo extends Info
 	/**
 	 * @var bool $liveness_detect 活体检测开关,false-关闭活体检测；true-开启活体检测 ，默认为：true
 	 */
-	public $liveness_detect = TRUE;
+	public $liveness_detect = true;
 	/**
 	 * @var int $rec_time_frequency 识别频率 单位：秒。最⼩值30秒，默认180秒，即：在该时间窗内同⼀⼈员多次被识别，只上传⼀次识别记录
 	 */
@@ -56,8 +56,8 @@ class DeviceInfo extends Info
 	 *
 	 * @return DeviceExtInfo
 	 */
-	protected function setDeviceExtInfo($device_ext_info)
+	protected function setDeviceExtInfo($device_ext_info) : DeviceExtInfo
 	{
-		return new DeviceExtInfo(is_array($device_ext_info) ? $device_ext_info : json_decode($device_ext_info, TRUE));
+		return new DeviceExtInfo(is_array($device_ext_info) ? $device_ext_info : json_decode($device_ext_info, true));
 	}
 }

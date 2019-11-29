@@ -14,7 +14,7 @@ class Face extends Api
 	/**
 	 * max face image number
 	 */
-	private const MAX_IMAGE_NUMBER = 2;
+	const MAX_IMAGE_NUMBER = 2;
 	
 	/**
 	 * get face image data
@@ -23,7 +23,7 @@ class Face extends Api
 	 *
 	 * @return array
 	 */
-	private function getFaceImageData(array $faceImages = [])
+	private function getFaceImageData(array $faceImages = []) : array
 	{
 		$faceImageData = [];
 		$faceImages    = array_slice(array_values($faceImages), 0, self::MAX_IMAGE_NUMBER);
@@ -46,7 +46,7 @@ class Face extends Api
 	 *
 	 * @return Response
 	 */
-	public function create(string $person_code, string $face_lib_code, string $person_name, array $ext_info = [], array $face_imgs = [])
+	public function create(string $person_code, string $face_lib_code, string $person_name, array $ext_info = [], array $face_imgs = []) : Response
 	{
 		return $this->request('/face/create', [
 			'person_code'   => $person_code,
@@ -67,7 +67,7 @@ class Face extends Api
 	 *
 	 * @return Response
 	 */
-	public function delete(string $person_code, string $face_lib_code, bool $del_face_img1 = true, bool $del_face_img2 = false)
+	public function delete(string $person_code, string $face_lib_code, bool $del_face_img1 = true, bool $del_face_img2 = false) : Response
 	{
 		return $this->request('/face/delete', [
 			'person_code'   => $person_code,
@@ -88,7 +88,7 @@ class Face extends Api
 	 *
 	 * @return Response
 	 */
-	public function update(string $person_code, string $face_lib_code, string $person_name = '', array $ext_info = [], array $face_imgs = [])
+	public function update(string $person_code, string $face_lib_code, string $person_name = '', array $ext_info = [], array $face_imgs = []) : Response
 	{
 		$data = [
 			'person_code'   => $person_code,
@@ -116,7 +116,7 @@ class Face extends Api
 	 *
 	 * @return Response
 	 */
-	public function get(string $person_code, string $face_lib_code)
+	public function get(string $person_code, string $face_lib_code) : Response
 	{
 		return $this->request('/face/get', [
 			'person_code'   => $person_code,

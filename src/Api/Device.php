@@ -22,29 +22,32 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function create(string $device_sn, string $device_name, DeviceExtInfo $device_ext_info = NULL)
+	public function create(string $device_sn, string $device_name, DeviceExtInfo $device_ext_info = null) : Response
 	{
 		return $this->request('/device/create', [
 			'device_sn'       => $device_sn,
 			'device_name'     => $device_name,
-			'device_ext_info' => $device_ext_info == NULL ? [] : $device_ext_info->get(),
+			'device_ext_info' => $device_ext_info === null ? [] : $device_ext_info->get(),
 		]);
 	}
 	
 	/**
 	 * 更新设备配置
 	 *
-	 * @param string     $device_sn
-	 * @param DeviceInfo $deviceData
+	 * @param string          $device_sn
+	 * @param DeviceInfo|null $deviceInfo
 	 *
 	 * @return Response
 	 */
-	public function updateConfig(string $device_sn, DeviceInfo $deviceInfo = NULL)
+	public function updateConfig(string $device_sn, DeviceInfo $deviceInfo = null) : Response
 	{
 		$data = [
 			'device_sn' => $device_sn,
 		];
-		$deviceInfo != NULL and $data += $deviceInfo->get();
+		if($deviceInfo !== null)
+		{
+			$data = array_merge($data, $deviceInfo->get());
+		}
 		
 		return $this->request('/device/update_config', $data);
 	}
@@ -58,14 +61,20 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function update(string $device_sn, string $device_name = '', DeviceExtInfo $device_ext_info = NULL)
+	public function update(string $device_sn, string $device_name = '', DeviceExtInfo $device_ext_info = null) : Response
 	{
 		$data = [
 			'device_sn' => $device_sn,
 		];
 		
-		!empty($device_name) and $data['device_name'] = $device_name;
-		$device_ext_info != NULL and $data['device_ext_info'] = $device_ext_info->get();
+		if(!empty($device_name))
+		{
+			$data['device_name'] = $device_name;
+		}
+		if($device_ext_info !== null)
+		{
+			$data['device_ext_info'] = $device_ext_info->get();
+		}
 		
 		return $this->request('/device/update', $data);
 	}
@@ -77,7 +86,7 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function delete(string $device_sn)
+	public function delete(string $device_sn) : Response
 	{
 		return $this->request('/device/delete', ['device_sn' => $device_sn]);
 	}
@@ -89,7 +98,7 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function get(string $device_sn)
+	public function get(string $device_sn) : Response
 	{
 		return $this->request('/device/get', ['device_sn' => $device_sn]);
 	}
@@ -103,7 +112,7 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function lists(int $page_num = 1, int $page_size = 50, string $device_name = '')
+	public function lists(int $page_num = 1, int $page_size = 50, string $device_name = '') : Response
 	{
 		$data = [
 			'page_num'  => $page_num,
@@ -124,7 +133,7 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function syncStatus(string $device_sn)
+	public function syncStatus(string $device_sn) : Response
 	{
 		return $this->request('/device/get_config_sync_status', ['device_sn' => $device_sn]);
 	}
@@ -137,7 +146,7 @@ class Device extends Api
 	 *
 	 * @return Response
 	 */
-	public function resetKey(string $device_sn, string $device_key)
+	public function resetKey(string $device_sn, string $device_key) : Response
 	{
 		return $this->request('/device/reset_key', [
 			'device_sn'  => $device_sn,
@@ -155,7 +164,7 @@ class Device extends Api
 	 * @return Response
 	 * @deprecated 暂未开放
 	 */
-	public function sendCommand(string $device_sn, string $command, array $command_data = [])
+	public function sendCommand(string $device_sn, string $command, array $command_data = []) : Response
 	{
 		return $this->request('/device/send_command', [
 			'device_sn'    => $device_sn,

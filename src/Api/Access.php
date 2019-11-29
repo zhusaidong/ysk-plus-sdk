@@ -20,7 +20,7 @@ class Access extends Api
 	 *
 	 * @return Response
 	 */
-	public function addPersons(string $device_sn, string $face_lib_code, array $person_codes = [])
+	public function addPersons(string $device_sn, string $face_lib_code, array $person_codes = []) : Response
 	{
 		return $this->request('/access_rights/device_grant_persons', [
 			'device_sn'     => $device_sn,
@@ -38,7 +38,7 @@ class Access extends Api
 	 *
 	 * @return Response
 	 */
-	public function deletePersons(string $device_sn, string $face_lib_code, array $person_codes = [])
+	public function deletePersons(string $device_sn, string $face_lib_code, array $person_codes = []) : Response
 	{
 		return $this->request('/access_rights/device_revoke_persons', [
 			'device_sn'     => $device_sn,
@@ -57,7 +57,7 @@ class Access extends Api
 	 *
 	 * @return Response
 	 */
-	public function lists(string $device_sn, int $page_num = 1, int $page_size = 50, int $sync_status = 0)
+	public function lists(string $device_sn, int $page_num = 1, int $page_size = 50, int $sync_status = 0) : Response
 	{
 		$data = [
 			'device_sn' => $device_sn,
@@ -82,7 +82,7 @@ class Access extends Api
 	 *
 	 * @return Response
 	 */
-	public function personPermissions(string $person_code, string $face_lib_code, int $page_num = 1, int $page_size = 50)
+	public function personPermissions(string $person_code, string $face_lib_code, int $page_num = 1, int $page_size = 50) : Response
 	{
 		return $this->request('/access_rights/query_grant_devices', [
 			'person_code'   => $person_code,
@@ -101,7 +101,7 @@ class Access extends Api
 	 *
 	 * @return Response
 	 */
-	public function setAdmin(string $device_sn, string $face_lib_code, array $person_codes = [])
+	public function setAdmin(string $device_sn, string $face_lib_code, array $person_codes = []) : Response
 	{
 		return $this->request('/access_rights/set_admin', [
 			'device_sn'     => $device_sn,
@@ -119,7 +119,7 @@ class Access extends Api
 	 *
 	 * @return Response
 	 */
-	public function deleteAdmin(string $device_sn, string $face_lib_code, array $person_codes = [])
+	public function deleteAdmin(string $device_sn, string $face_lib_code, array $person_codes = []) : Response
 	{
 		return $this->request('/access_rights/unset_admin', [
 			'device_sn'     => $device_sn,

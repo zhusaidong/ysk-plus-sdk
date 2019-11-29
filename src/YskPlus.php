@@ -29,11 +29,11 @@ class YskPlus
 	/**
 	 * @var string $appKey
 	 */
-	private $appKey = '';
+	private $appKey;
 	/**
 	 * @var string $secretKey
 	 */
-	private $secretKey = '';
+	private $secretKey;
 	/**
 	 * @var array $apis
 	 */
@@ -44,13 +44,13 @@ class YskPlus
 		'access'  => Access::class,
 	];
 	/**
-	 * @var Request|null $request
+	 * @var Request $request
 	 */
-	private $request = NULL;
+	private $request;
 	/**
 	 * @var null|Logger $logger
 	 */
-	private $logger = NULL;
+	private $logger = null;
 	
 	/**
 	 * YskPlus constructor.
@@ -73,7 +73,7 @@ class YskPlus
 	 * @return $this
 	 * @throws Exception
 	 */
-	public function setLog(string $logPath = 'YskPlus.log')
+	public function setLog(string $logPath = 'YskPlus.log') : self
 	{
 		$this->logger = new Logger('YskPlusLog');
 		$this->logger->pushHandler(new StreamHandler($logPath, Logger::INFO));
@@ -90,12 +90,12 @@ class YskPlus
 	 */
 	public function __get($param)
 	{
-		if(($apiObject = ($this->apis[$param] ?? NULL)) !== NULL)
+		if(($apiObject = ($this->apis[$param] ?? null)) !== null)
 		{
 			return $apiObject::getInstance()->setRequest($this->request)->setLogger($this->logger);
 		}
 		
-		return NULL;
+		return null;
 	}
 	
 	/**
@@ -105,7 +105,7 @@ class YskPlus
 	 *
 	 * @return string
 	 */
-	public function fileUrl($file_path)
+	public function fileUrl($file_path) : string
 	{
 		$signature = strtoupper(md5(urldecode(http_build_query([
 			'file_path'  => $file_path,

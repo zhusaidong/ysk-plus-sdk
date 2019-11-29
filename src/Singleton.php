@@ -17,7 +17,7 @@ trait Singleton
 	{
 		static $instances = [];
 		
-		$className = get_called_class();
+		$className = static::class;
 		if(!isset($instances[$className]))
 		{
 			$instances[$className] = new $className;

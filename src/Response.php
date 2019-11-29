@@ -15,11 +15,11 @@ class Response
 	/**
 	 * @var bool $error_code
 	 */
-	private $error_code = FALSE;
+	private $error_code = false;
 	/**
 	 * @var bool $error_message
 	 */
-	private $error_message = FALSE;
+	private $error_message = false;
 	/**
 	 * @var string $zqzn_trace_id
 	 */
@@ -32,12 +32,12 @@ class Response
 	 *
 	 * @return $this
 	 */
-	public function setOriginal(string $data)
+	public function setOriginal(string $data) : self
 	{
-		$response = json_decode($data, TRUE);
+		$response = json_decode($data, true);
 		
 		$this->zqzn_trace_id = $response['zqzn_trace_id'] ?? '';
-		if(isset($response['success']) and $response['success'] === FALSE)
+		if(isset($response['success']) && $response['success'] === false)
 		{
 			$this->error_code = $response['error_code'];
 			preg_match('/(.*):\[(?P<message>.*)]/i', $response['message'], $match);
@@ -56,7 +56,7 @@ class Response
 	 *
 	 * @return bool
 	 */
-	public function getError()
+	public function getError() : bool
 	{
 		return $this->error_code;
 	}
@@ -68,7 +68,7 @@ class Response
 	 */
 	public function getErrorMessage()
 	{
-		return $this->error_code === FALSE ? NULL : $this->error_message;
+		return $this->error_code === false ? null : $this->error_message;
 	}
 	
 	/**
@@ -76,7 +76,7 @@ class Response
 	 *
 	 * @return array
 	 */
-	public function get()
+	public function get() : array
 	{
 		return $this->response;
 	}
@@ -86,7 +86,7 @@ class Response
 	 *
 	 * @return array
 	 */
-	public function info()
+	public function info() : array
 	{
 		return [
 			'error_code'    => $this->getError(),

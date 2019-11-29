@@ -13,11 +13,11 @@ class Request
 	/**
 	 * @var string $appKey
 	 */
-	private $appKey = '';
+	private $appKey;
 	/**
 	 * @var string $secretKey
 	 */
-	private $secretKey = '';
+	private $secretKey;
 	/**
 	 * @var string $host
 	 */
@@ -29,7 +29,7 @@ class Request
 	/**
 	 * @var Client $client
 	 */
-	private $client = NULL;
+	private $client;
 	
 	/**
 	 * Request constructor.
@@ -49,10 +49,10 @@ class Request
 	 *
 	 * @return array
 	 */
-	private function getSignData()
+	private function getSignData() : array
 	{
-		$this->setTraceId(uniqid() . '_' . date('YmdHis'));
-		$request_time    = intval(microtime(TRUE) * 1000);//毫秒
+		$this->setTraceId(uniqid('', true) . '_' . date('YmdHis'));
+		$request_time    = (int)(microtime(true) * 1000);//毫秒
 		$signature_nonce = md5($this->getTraceId());
 		
 		return [
@@ -77,12 +77,12 @@ class Request
 	 *
 	 * @return array
 	 */
-	private function getPostFields(array $reqData, array $faceImageData = [])
+	private function getPostFields(array $reqData, array $faceImageData = []) : array
 	{
 		$multipart = [
 			[
 				'name'     => 'req_data',
-				'contents' => json_encode($this->getSignData() + $reqData, JSON_UNESCAPED_UNICODE),
+				'contents' => json_encode(array_merge($this->getSignData(), $reqData), JSON_UNESCAPED_UNICODE),
 			],
 		];
 		foreach($faceImageData as $key => $faceImage)

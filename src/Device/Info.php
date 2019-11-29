@@ -21,7 +21,7 @@ class Info
 	/**
 	 * set
 	 *
-	 * @param array $deviceInfo
+	 * @param array $infos
 	 */
 	public function set(array $infos = [])
 	{
@@ -30,7 +30,7 @@ class Info
 			if(property_exists($this, $property))
 			{
 				$func              = 'set' . str_replace('_', '', ucwords($property, '_'));
-				$this->{$property} = method_exists($this, $func) ? call_user_func([$this, $func], $info) : $info;
+				$this->{$property} = method_exists($this, $func) ? $this->$func($info) : $info;
 			}
 		}
 	}
@@ -40,13 +40,12 @@ class Info
 	 *
 	 * @return array
 	 */
-	public function get()
+	public function get() : array
 	{
 		$properties = [];
 		foreach(get_object_vars($this) as $property => $attr)
 		{
-			$attr instanceof Info and $attr = $attr->get();
-			$properties[$property] = $attr;
+			$properties[$property] = $attr instanceof self ? $attr->get() : $attr;
 		}
 		
 		return $properties;
