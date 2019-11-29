@@ -14,7 +14,7 @@ return [
 	'appKey'    => 'appKey',
 	'secretKey' => 'secretKey',
 	'device_sn' => 'device_sn',
-]
+];
 ```
 
 ### Available methods
