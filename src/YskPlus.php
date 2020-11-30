@@ -35,7 +35,7 @@ class YskPlus
 	 */
 	private $secretKey;
 	/**
-	 * @var array $apis
+	 * @var Api[] $apis
 	 */
 	private $apis = [
 		'faceLib' => FaceLib::class,
@@ -50,7 +50,7 @@ class YskPlus
 	/**
 	 * @var null|Logger $logger
 	 */
-	private $logger = null;
+	private $logger;
 	
 	/**
 	 * YskPlus constructor.
@@ -96,6 +96,12 @@ class YskPlus
 		}
 		
 		return null;
+	}
+	
+	public function __set($k, $v){
+	}
+	
+	public function __isset($v){
 	}
 	
 	/**

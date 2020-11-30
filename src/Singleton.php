@@ -11,10 +11,9 @@ trait Singleton
 	/**
 	 * get instance
 	 *
-	 * @return mixed
+	 * @return Api
 	 */
-	public static function getInstance()
-	{
+	public static function getInstance() : Api{
 		static $instances = [];
 		
 		$className = static::class;

@@ -14,11 +14,11 @@ class Api
 	/**
 	 * @var Request|null $request
 	 */
-	private $request = null;
+	private $request;
 	/**
 	 * @var null|Logger $logger
 	 */
-	private $logger = null;
+	private $logger;
 	
 	/**
 	 * set request
